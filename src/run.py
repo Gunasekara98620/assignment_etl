@@ -112,9 +112,13 @@ def process_data(spark_df, output_dir: str, specific_words: List[str], logger: l
         words_df = spark_df.select(explode(split(col("description"), r"\s+")).alias("word"))
 
         # Count specific words
-        specific_word_counts = words_df.filter(
+        specific_word_counts_nocasefilter = words_df.filter(
             lower(col("word")).isin([w.lower() for w in specific_words])
         ).groupBy("word").count()
+
+        specific_word_counts = specific_word_counts_nocasefilter.filter(
+            col("word").isin(specific_words)
+        )
 
         specific_word_counts.show()
 
