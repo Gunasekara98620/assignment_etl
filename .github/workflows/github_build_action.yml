@@ -25,14 +25,14 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t assignment_uzabase . | tee build_log.txt
+          docker build -t assignment_uzabase . | tee Docker_build.txt
 
 
       - name: Upload Build Log
         uses: actions/upload-artifact@v4
         with:
           name: build-log
-          path: build_log.txt
+          path: Docker_build.txt
 
 
       - name: Run Docker Container

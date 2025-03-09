@@ -50,55 +50,6 @@ COPY src/ src/
 COPY script/ script/
 COPY config/ config/
 
-
-
-
-
-
-
-#
-#FROM openjdk:11-slim
-#
-## Set environment variables for Spark, Hadoop, and Java
-#ENV SPARK_VERSION=3.5.5 \
-#    HADOOP_VERSION=3 \
-#    SPARK_HOME=/opt/spark \
-#    JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
-#    PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.9.5-src.zip \
-#    PATH=$PATH:/opt/spark/bin:/opt/spark/sbin
-#
-## Install dependencies for Spark, Hadoop, and other utilities
-#RUN apt-get update && \
-#    apt-get install -y software-properties-common gnupg2 wget curl bash tini lsb-release \
-#    libsnappy-dev openjdk-11-jdk && \
-#    apt-get clean && \
-#    rm -rf /var/lib/apt/lists/*
-#
-## Install Python 3.11 from the official Debian repository
-#RUN apt-get update && \
-#    apt-get install -y python3 python3-pip python3-distutils python3-venv && \
-#    apt-get clean && \
-#    rm -rf /var/lib/apt/lists/*
-#
-## Install pip for Python 3.11
-#RUN curl https://bootstrap.pypa.io/get-pip.py | python3
-#
-## Download and install Apache Spark with Hadoop
-#RUN wget -qO - https://dlcdn.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz | tar xvz -C /opt && \
-#    mv /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark
-#
-## Install Python dependencies
-#COPY requirements.txt .
-#RUN pip install --no-cache-dir -r requirements.txt
-#
-## Set the working directory
-#WORKDIR /app
-#
-## Copy the application files to the container
-#COPY src/ src/
-#COPY script/ script/
-#COPY config/ config/
-#
 ## Make the run.sh script executable
 #RUN chmod +x script/run.sh
 #
