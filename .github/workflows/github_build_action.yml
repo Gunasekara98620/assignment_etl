@@ -38,22 +38,14 @@ jobs:
           name: build-log
           path: Docker_build.txt
 
-
-      - name: Run Docker Container
+      - name: Run Docker Container (bash run.sh)
         run: |
-          # Run the Docker container in detached mode
-          docker run -d --name uzabase_container assignment_uzabase /bin/bash -c "cd script && bash run.sh"
+          docker run --rm assignment_uzabase /bin/bash -c "cd script && bash run.sh"
 
       - name: Get pip list from Docker container
         run: |
-          # Generate pip list inside the container and store it in a file
-          docker exec uzabase_container bash -c "pip list > /app/pip_list.txt"
-
-          # Copy the pip_list.txt from the container to the local runner
-          docker cp uzabase_container:/app/pip_list.txt ./pip_list.txt
-
-          # Stop and remove the container after retrieving the pip list
-          docker rm -f uzabase_container
+          # Run the container again and get the pip list
+          docker run --rm assignment_uzabase /bin/bash -c "pip list" > pip_list.txt
 
       - name: Upload pip list
         uses: actions/upload-artifact@v4
