@@ -1,0 +1,11 @@
+# Ignore virtual environments and IDE files
+.venv
+.idea
+
+# Ignore log files and build artifacts
+*.log
+__pycache__
+*.pyc
+
+# Ignore git files if using a repository
+.git

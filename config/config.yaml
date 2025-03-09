@@ -1,0 +1,10 @@
+# Spark configuration
+spark:
+  app_name: "AGNewsProcessing"
+
+# Processing configuration
+specific_words:
+    - "president"
+    - "the"
+    - "Asia"
+
