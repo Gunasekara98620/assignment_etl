@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
+      - name: Set up Docker Build
         uses: docker/setup-buildx-action@v2
 
       - name: Log in to GitHub Container Registry
@@ -41,8 +41,25 @@ jobs:
 
       - name: Run Docker Container
         run: |
-          docker run --rm assignment_uzabase /bin/bash -c "cd script && bash run.sh"
+          # Run the Docker container in detached mode
+          docker run -d --name uzabase_container assignment_uzabase /bin/bash -c "cd script && bash run.sh"
 
+      - name: Get pip list from Docker container
+        run: |
+          # Generate pip list inside the container and store it in a file
+          docker exec uzabase_container bash -c "pip list > /app/pip_list.txt"
+
+          # Copy the pip_list.txt from the container to the local runner
+          docker cp uzabase_container:/app/pip_list.txt ./pip_list.txt
+
+          # Stop and remove the container after retrieving the pip list
+          docker rm -f uzabase_container
+
+      - name: Upload pip list
+        uses: actions/upload-artifact@v4
+        with:
+          name: pip-list
+          path: ./pip_list.txt
 
       - name: Display Running Containers
         run: docker ps -a
