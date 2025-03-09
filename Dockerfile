@@ -38,23 +38,25 @@ RUN conda install -y \
     pyspark \
     s3fs
 
+# Copy the requirements.txt before installing Python dependencies
+COPY requirements.txt /app/
+
 # Install any other pip dependencies (if required)
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Set the working directory
 WORKDIR /app
 
 # Copy the application files to the container
-COPY src/ src/
-COPY script/ script/
-COPY config/ config/
+COPY src/ /app/src/
+COPY script/ /app/script/
+COPY config/ /app/config/
 
 ## Make the run.sh script executable
-#RUN chmod +x script/run.sh
+#RUN chmod +x /app/script/run.sh
 #
 ## Expose Spark UI port
 #EXPOSE 4040
 #
 ## Set the entrypoint using Tini for proper signal handling
-#ENTRYPOINT ["tini", "--", "script/run.sh"]
+#ENTRYPOINT ["tini", "--", "/app/script/run.sh"]

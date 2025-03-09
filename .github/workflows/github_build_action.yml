@@ -25,6 +25,10 @@ jobs:
 
       - name: Build Docker image
         run: |
+          docker build -t assignment_uzabase .
+
+      - name: Build Docker image | Generate Docker build log
+        run: |
           docker build -t assignment_uzabase . | tee Docker_build.txt
 
 
@@ -37,7 +41,8 @@ jobs:
 
       - name: Run Docker Container
         run: |
-          docker run --name uzabase_container -d assignment_uzabase /bin/bash script/run.sh
+          docker run --rm assignment_uzabase /bin/bash -c "cd script && bash run.sh"
+
 
       - name: Display Running Containers
         run: docker ps -a
